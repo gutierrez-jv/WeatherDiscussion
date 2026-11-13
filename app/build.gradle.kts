@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.devtools.ksp")
 
 }
 //API KEY
@@ -82,4 +83,5 @@ dependencies {
     //IMAGE LOADERS
     implementation(libs.compose)
     implementation(libs.okhttp3.integration)
+    ksp("com.github.bumptech.glide:ksp:4.16.0")
 }

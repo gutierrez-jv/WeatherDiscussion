@@ -1,7 +1,11 @@
 package com.example.weatherdiscussion.ui.details
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.weatherdiscussion.WeatherApp
 import com.example.weatherdiscussion.data.ApiResult
 import com.example.weatherdiscussion.data.WeatherRepository
 import com.example.weatherdiscussion.uimodels.City
@@ -31,6 +35,16 @@ class DetailsViewModel(private val repo: WeatherRepository, val city: City) : Vi
             _state.value = when(val result = repo.detail(city)){
                 is ApiResult.Success -> DetailUIState.Success(result.data)
                 else -> DetailUIState.Error(result.toString())
+            }
+        }
+    }
+
+    companion object {
+        val factory = viewModelFactory {
+            initializer {
+                // TODO: FIX THIS
+                val app = this[APPLICATION_KEY] as WeatherApp
+                DetailsViewModel(app.container.weatherRepository, City("Test","Test", 0.0, 0.0))
             }
         }
     }

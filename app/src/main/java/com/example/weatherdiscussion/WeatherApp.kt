@@ -14,6 +14,4 @@ class WeatherApp : Application() {
         super.onCreate()
         container = AppContainer(this)
     }
-
-
 }

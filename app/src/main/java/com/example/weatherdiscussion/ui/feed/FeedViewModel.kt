@@ -4,10 +4,17 @@ import android.icu.text.SearchIterator
 import androidx.compose.runtime.State
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.savedstate.savedState
+import com.example.weatherdiscussion.WeatherApp
 import com.example.weatherdiscussion.data.ApiResult
 import com.example.weatherdiscussion.data.WeatherRepository
+import com.example.weatherdiscussion.data.remote.WeatherAPI
 import com.example.weatherdiscussion.uimodels.City
 import com.example.weatherdiscussion.uimodels.CityWeatherUI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -111,5 +118,12 @@ class FeedViewModel(private val repo: WeatherRepository, private val savedState:
             City("Tokyo", "JP",35.6762, 139.6503),
             City("Sydney","AU", -33.8688, 151.2093)
         )
+
+        val factory = viewModelFactory {
+            initializer {
+                val app = this[APPLICATION_KEY] as WeatherApp
+                FeedViewModel(app.container.weatherRepository, createSavedStateHandle())
+            }
+        }
     }
 }
